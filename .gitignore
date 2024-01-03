@@ -1,0 +1,53 @@
+HELP.md
+/.mvn/**/*.jar
+!maven-wrapper.properties
+!**/src/main/**
+!**/src/test/**
+
+# VI generated files
+.*.sw[a-z]
+*.un~
+Session.vim
+
+# IntelliJ Idea generated files
+*.iml
+*.ipr
+*.iws
+.idea
+.subsplit
+*plugin.xml
+
+# Project generated files
+*.class
+*.log
+*.patch
+*.war
+*.ear
+*.ser
+logs/
+
+# Compression generated files
+*.zip
+*.gz
+*.tar
+*.rar
+*.7z
+
+# Maven generated files
+*.releaseBackup
+release.properties
+pom.xml.versionsBackup
+target/
+
+# OS generated files
+*.pid
+*.swp
+*.tmp
+*.old
+*.backup
+*.diff
+
+*.DS_Store
+.splitter/
+.env
+.pth
