@@ -24,6 +24,7 @@ Session.vim
 *.war
 *.ear
 *.ser
+*.pkl
 logs/
 
 # Compression generated files

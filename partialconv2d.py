@@ -93,17 +93,48 @@ class PartialConv2d(nn.Conv2d):
         else:
             return output
 
+   #def expand_white_pixels(self, mask, expansion=1):
+   #    if isinstance(mask, torch.Tensor):
+   #        mask = mask.cpu().numpy()
+
+   #    mask_uint8 = (mask * 255).astype(np.uint8)
+   #    kernel = np.ones((3, 3), np.uint8)
+
+   #    dilated_mask = cv2.dilate(mask_uint8, kernel, iterations=expansion)
+   #    dilated_mask_binary = (dilated_mask / 255).astype(np.float32)
+   #    dilated_mask_tensor = torch.from_numpy(dilated_mask_binary)
+
+   #    return dilated_mask_tensor
+
     def expand_white_pixels(self, mask, expansion=1):
+        # Ensure the mask is squeezed to remove any singleton dimensions
         if isinstance(mask, torch.Tensor):
+            original_device = mask.device  # Store the device information
+            mask = mask.squeeze()  # Remove all singleton dimensions
+
+            # If the mask is still 3D, it likely has multiple channels
+            if mask.dim() == 3:
+                # Option 1: Select the first channel (if appropriate)
+                mask = mask[0, :, :]
+                # Option 2: Average across channels to get a single 2D mask
+                # mask = mask.mean(dim=0)
+
+            if mask.dim() > 2:
+                raise ValueError(f"Mask should be 2D, but got {mask.dim()}D after squeezing.")
+
+            # Convert the mask to a 2D numpy array
             mask = mask.cpu().numpy()
 
+        # Now mask should be a 2D numpy array
         mask_uint8 = (mask * 255).astype(np.uint8)
         kernel = np.ones((3, 3), np.uint8)
-
         dilated_mask = cv2.dilate(mask_uint8, kernel, iterations=expansion)
         dilated_mask_binary = (dilated_mask / 255).astype(np.float32)
-        dilated_mask_tensor = torch.from_numpy(dilated_mask_binary)
+
+        # Convert back to a PyTorch tensor and move to the original device
+        dilated_mask_tensor = torch.from_numpy(dilated_mask_binary).to(original_device)
 
         return dilated_mask_tensor
+
 
 
