@@ -56,3 +56,4 @@ results/
 .splitter/
 .env
 .pth
+.pkl
