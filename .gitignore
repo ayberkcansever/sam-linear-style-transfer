@@ -39,6 +39,10 @@ logs/
 release.properties
 pom.xml.versionsBackup
 target/
+dataset/
+paper_dataset/
+paper_images/
+results/
 
 # OS generated files
 *.pid
